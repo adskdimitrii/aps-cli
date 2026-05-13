@@ -1,0 +1,21 @@
+{
+  "name": "aps-cli",
+  "version": "0.1.0",
+  "description": "CLI for Autodesk Platform Services APIs",
+  "type": "module",
+  "bin": {
+    "aps": "./bin/aps"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && mkdir -p dist/docs && cp -r docs/aecdatamodel dist/docs/aecdatamodel",
+    "typecheck": "tsc --noEmit",
+    "start": "node --experimental-strip-types src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
+  }
+}
