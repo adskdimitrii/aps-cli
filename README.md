@@ -139,6 +139,23 @@ Once a user authenticates, the agent should never need to see the OAuth token. T
 
 The boundary between "human authenticates" and "agent operates" is a key security property of this design.
 
+SSA (Secure Service Accounts) takes this isolation a step further. Rather than delegating a human user's identity to the agent, SSA creates a dedicated service identity — scoped to your APS application — that can be granted access to Forma resources independently. The agent authenticates as this service account using JWT assertions signed by a private key managed by the CLI; no user credentials or browser session are ever involved. Because the SSA identity exists separately from any human account, its access can be provisioned at the minimum required permission level and revoked without affecting any user. This makes SSA the recommended option for production agentic workflows where strong credential isolation and auditability are required.
+
+```
+  APS Application
+    │
+    └── SSA Identity (service account email)
+          │
+          ├── Provisioned to Hub
+          │     │
+          │     └── Granted project-level access (e.g. viewer only)
+          │           │
+          │           └── Agent operates within this scope
+          │                 (cannot exceed granted permissions)
+          │
+          └── Revocable independently of any human user
+```
+
 ### A Minimal, Focused Interface
 
 Fewer commands mean a cleaner context window. From experience, agent performance on complex tasks improves as the interface simplifies — extraneous commands dilute the signal of what's actually useful. This CLI ships only what's needed to navigate APS data; nothing more.
