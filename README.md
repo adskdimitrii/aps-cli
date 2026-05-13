@@ -93,7 +93,7 @@ node ./dist/index.js --help
 
 ### Teaching your Agent to Use the CLI
 
-Edit the path in `skill.md` to the fullpath on your local machine where the `./dist/index.js` is located. Tell the agent to learn this skill as `aps-cli`
+Edit the path in `skills/aps-cli/SKILL.md` to the full path on your local machine where the `./dist/index.js` is located. Tell the agent to learn this skill as `aps-cli`.
 
 ---
 
@@ -187,7 +187,6 @@ Base CLI (this repo)
     │
     ├── aps ls          ← navigate ACC file structure
     ├── aps query       ← run AEC Data Model GraphQL queries
-    ├── aps rfi         ← fetch RFIs
     └── ...
     │
     ▼ Agent augments for domain-specific task
