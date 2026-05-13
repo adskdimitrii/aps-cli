@@ -94,3 +94,74 @@ node ./dist/index.js --help
 ### Teaching your Agent to Use the CLI
 
 Edit the path in `skill.md` to the fullpath on your local machine where the `./dist/index.js` is located. Tell the agent to learn this skill as `aps-cli`
+
+---
+
+## Design Philosophy
+
+### CLIs over MCPs for Agentic Workflows
+
+MCP servers and CLIs are both wrappers around REST APIs — but CLIs are a more natural fit for AI agents. LLMs are extensively post-trained on shell usage and unix toolchains, giving them strong intuition for chaining commands, parsing output, and composing scripts to accomplish complex tasks. When an agent understands the goal, it self-implements strategies using the tools it already knows best.
+
+```
+REST API
+   │
+   ├── MCP Server ──► Agent calls tool directly
+   │                  (custom protocol, fragile context)
+   │
+   └── CLI ──────────► Agent runs shell commands
+                       (unix patterns, scriptable, chainable)
+```
+
+Agents naturally reach for scripts and pipelines when a task grows in complexity — and a well-designed CLI meets them there.
+
+### Credential Isolation
+
+Once a user authenticates, the agent should never need to see the OAuth token. The CLI handles credential storage, refresh, and injection transparently. Sensitive values are encrypted at rest and never surfaced in command output.
+
+```
+  Human                CLI                  APS API
+    │                   │                      │
+    ├──── aps login ────►│                      │
+    │◄─── (browser) ────┤                      │
+    │                   ├──── store token ─────┤
+    │                   │     (encrypted)       │
+    │                   │                      │
+  Agent               CLI                  APS API
+    │                   │                      │
+    ├── aps query ... ──►│                      │
+    │                   ├── inject token ──────►│
+    │◄────── data ───────┤◄──────── data ───────┤
+    │                   │                      │
+    │  (token never     │
+    │   visible here)   │
+```
+
+The boundary between "human authenticates" and "agent operates" is a key security property of this design.
+
+### A Minimal, Focused Interface
+
+Fewer commands mean a cleaner context window. From experience, agent performance on complex tasks improves as the interface simplifies — extraneous commands dilute the signal of what's actually useful. This CLI ships only what's needed to navigate APS data; nothing more.
+
+### Extensibility as a First Principle
+
+Real-world use cases vary. A project manager, a cost engineer, and an automation developer all need different vocabulary from the same underlying API. This CLI is designed to be augmented — help text, commands, and output can be tailored to the business domain of the agent's task.
+
+Since coding agents excel at extending CLIs given API documentation, missing functionality is typically one prompt away. The framework eliminates boilerplate so every augmentation starts from a working foundation:
+
+```
+Base CLI (this repo)
+    │
+    ├── aps ls          ← navigate ACC file structure
+    ├── aps query       ← run AEC Data Model GraphQL queries
+    ├── aps rfi         ← fetch RFIs
+    └── ...
+    │
+    ▼ Agent augments for domain-specific task
+    │
+    ├── aps cost        ← (generated from cost API docs)
+    ├── aps assets      ← (generated from assets API docs)
+    └── aps <whatever>  ← one prompt, no boilerplate
+```
+
+The result is a CLI that is both immediately useful and fluid enough to grow with the task.
