@@ -73,7 +73,7 @@ Creates a service account identity tied to your APS application. No browser logi
 node ./dist/index.js configure --client-id <YOUR-CLIENT-ID> --client-secret <YOUR-CLIENT-SECRET> --ssa
 ```
 
-After running this command **COPY** the `SSA Email Address` the CLI creates and store for later.
+After running this command **COPY** the `SSA Email Address` the CLI creates and store it for later.
 
 ### 3. Grant APS Access to Forma
 
@@ -83,7 +83,7 @@ After running this command **COPY** the `SSA Email Address` the CLI creates and 
 
 ### Grant SSA Access **[OPTIONAL]**
 
-If using **SSA** auth option you must now grant the `SSA Email Address` access to Forma resources just how you would a user. It's recommended to limit access control lowest required access.
+If using **SSA** auth option you must now grant the `SSA Email Address` access to Forma resources just like you would for a user. It's recommended to limit access to the lowest required level.
 
 ### Using the APS CLI Manually
 
@@ -122,16 +122,16 @@ Once a user authenticates, the agent should never need to see the OAuth token. T
 ```
   Human                CLI                  APS API
     │                   │                      │
-    ├──── aps login ────►│                      │
+    ├──── aps login ───►│                      │
     │◄─── (browser) ────┤                      │
     │                   ├──── store token ─────┤
-    │                   │     (encrypted)       │
+    │                   │     (encrypted)      │
     │                   │                      │
   Agent               CLI                  APS API
     │                   │                      │
-    ├── aps query ... ──►│                      │
-    │                   ├── inject token ──────►│
-    │◄────── data ───────┤◄──────── data ───────┤
+    ├── aps query .. ──►│                      │
+    │                   ├── inject token ─────►│
+    │◄────── data ──────┤◄──────── data ───────┤
     │                   │                      │
     │  (token never     │
     │   visible here)   │
@@ -142,6 +142,22 @@ The boundary between "human authenticates" and "agent operates" is a key securit
 ### A Minimal, Focused Interface
 
 Fewer commands mean a cleaner context window. From experience, agent performance on complex tasks improves as the interface simplifies — extraneous commands dilute the signal of what's actually useful. This CLI ships only what's needed to navigate APS data; nothing more.
+
+If you need to add new commands I would recommend the following:
+
+1. Clone https://github.com/adskdimitrii/aps-ai-friendly-docs
+2. Find the API(s) you are looking for in the offline docs.
+3. Prompt a coding agent with the following:
+
+```
+Add a new command to the aps-cli to help accomplish a new workflow:
+
+<DESCRIBE-WORKFLOW>
+
+Refer to the APS Documentation here:
+
+<PATH-TO-RELEVANT-DOCS>
+```
 
 ### Extensibility as a First Principle
 
@@ -165,3 +181,7 @@ Base CLI (this repo)
 ```
 
 The result is a CLI that is both immediately useful and fluid enough to grow with the task.
+
+## License
+
+See [LICENSE](LICENSE) for details.
