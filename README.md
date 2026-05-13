@@ -85,7 +85,7 @@ After running this command **COPY** the `SSA Email Address` the CLI creates and 
 
 If using **SSA** auth option you must now grant the `SSA Email Address` access to Forma resources just how you would a user. It's recommended to limit access control lowest required access.
 
-### Using the APS CLI
+### Using the APS CLI Manually
 
 ```bash
 node ./dist/index.js --help
@@ -93,8 +93,4 @@ node ./dist/index.js --help
 
 ### Teaching your Agent to Use the CLI
 
-Edit the path in `skill.md` to the full path on your local machine where the `./dist/index.js` is located. Tell the agent to learn this skill as `aps-cli`
-
-### About
-
-Author: dimitrii.pokrovskii@autodesk.com
+Edit the path in `skill.md` to the fullpath on your local machine where the `./dist/index.js` is located. Tell the agent to learn this skill as `aps-cli`

@@ -54,5 +54,5 @@ Ambient declarations for Node.js built-ins (process, fs, crypto, http, etc.) —
 If the CLI requires login, ask the user to login and tell you when they have completed this step. If you run into any errors as you test, try to correct and re-run tests.
 
 1. Build the app
-2. Run `aps url "https://acc.autodesk.com/docs/files/projects/8e2088c1-9879-43ff-b56f-66065b0fce42?folderUrn=urn%3Aadsk.wipprod%3Afs.folder%3Aco.wmdJC-0tQ1WRQBO5SO9dxw&entityId=urn%3Aadsk.wipprod%3Adm.lineage%3AONx_Rdu-RA29oK8oQd9fIw&viewModel=detail&moduleId=folders"`
+2. Run `aps url "https://acc.autodesk.com/docs/files/projects/<YOUR-PROJECT-ID>?folderUrn=<YOUR-FOLDER-URN>&entityId=<YOUR-ENTITY-ID>&viewModel=detail&moduleId=folders"`
 3. Using the CLI get a list of sheets in the following file.
