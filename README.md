@@ -1,6 +1,6 @@
 # aps-cli
 
-A command-line tool for querying Autodesk Platform Services (APS) APIs.
+A light-weight command-line interface starting point for querying Autodesk Platform Services (APS) APIs. Designed to be extended for specific workflows, comes bare bones by design.
 
 ## [BUILD OPTION 1] Open in a Dev Container
 
@@ -57,13 +57,13 @@ node ./dist/index.js login
 [Register a Traditional Web App](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app/) at the [APS Developer Portal](https://aps.autodesk.com/myapps) with:
 - **Callback URL**: `https://aps-oauth.azurewebsites.net`
 
-Use [https://aps-oauth.azurewebsites.net](https://aps-oauth.azurewebsites.net/) to create an access token. This workflow will enable using the CLI with OpenClaw style agents where the user can't use the login workflow.
+Use [https://aps-oauth.azurewebsites.net](https://aps-oauth.azurewebsites.net/) to create an access token. This workflow will enable using the CLI with OpenClaw-style agents where the user can't use the login workflow.
 
 ```bash
 node ./dist/index.js configure --client-id <YOUR-CLIENT-ID> --client-secret <YOUR-CLIENT-SECRET> --token ~/Downloads/token.json
 ```
 
-#### Option C — Secure Service Account (SSA - For OpenClaw style agents using Autodesk Secure Service Account):
+#### Option C — Secure Service Account (SSA - For OpenClaw-style agents using Autodesk Secure Service Account):
 
 [Register a Server-to-Server App](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app/) at the [APS Developer Portal](https://aps.autodesk.com/myapps)
 
@@ -115,6 +115,14 @@ REST API
 
 Agents naturally reach for scripts and pipelines when a task grows in complexity — and a well-designed CLI meets them there.
 
+CLIs also enable self-testing when augmented by an agent. Since the agent can use the CLI as soon as it has written type-safe TypeScript code, it can self-test features.
+
+### Non-Compiled CLI Works Even Better
+
+By not compiling the CLI, the agent using node on the host machine has the ability to read the source code of the CLI to provide more context. This is an interesting emergent quality of having agents use tools. We try to provide all of the human-readable context via the `--help`, but once the agent sees the CLI is just source code, it will then read the source code to provide more context; perhaps some nuance that the help text was missing.
+
+A more controversial benefit is self-healing. This is where the agent, after reading the source code and using the CLI, determined there might be a bug in the code or that it needed to add a feature. One story from the field: I gave this CLI to a customer and the agent quickly figured out that the reason the CLI wasn't working on their network was because of a firewall rule on their laptop. It did some research about that particular firewall software, found that if you added a specific header to the traffic it would be accepted, and patched the CLI.
+
 ### Credential Isolation
 
 Once a user authenticates, the agent should never need to see the OAuth token. The CLI handles credential storage, refresh, and injection transparently. Sensitive values are encrypted at rest and never surfaced in command output.
@@ -160,7 +168,7 @@ SSA (Secure Service Accounts) takes this isolation a step further. Rather than d
 
 Fewer commands mean a cleaner context window. From experience, agent performance on complex tasks improves as the interface simplifies — extraneous commands dilute the signal of what's actually useful. This CLI ships only what's needed to navigate APS data; nothing more.
 
-If you need to add new commands I would recommend the following:
+If you need to add new commands, I would recommend the following:
 
 1. Clone https://github.com/adskdimitrii/aps-ai-friendly-docs
 2. Find the API(s) you are looking for in the offline docs.
@@ -180,7 +188,7 @@ Refer to the APS Documentation here:
 
 Real-world use cases vary. A project manager, a cost engineer, and an automation developer all need different vocabulary from the same underlying API. This CLI is designed to be augmented — help text, commands, and output can be tailored to the business domain of the agent's task.
 
-Since coding agents excel at extending CLIs given API documentation, missing functionality is typically one prompt away. The framework eliminates boilerplate so every augmentation starts from a working foundation:
+Since coding agents excel at extending CLIs given API documentation, missing functionality is typically one prompt away. The framework eliminates boilerplate, so every augmentation starts from a working foundation:
 
 ```
 Base CLI (this repo)
@@ -198,6 +206,10 @@ Base CLI (this repo)
 
 The result is a CLI that is both immediately useful and fluid enough to grow with the task.
 
-## License
+## Pull Requests
+
+Sure. As long as it's within the Design Philosophy.
+
+## MIT License
 
 See [LICENSE](LICENSE) for details.
