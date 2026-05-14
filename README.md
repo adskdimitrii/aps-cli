@@ -1,6 +1,6 @@
 # aps-cli
 
-A light-weight command-line interface starting point for querying Autodesk Platform Services (APS) APIs. Designed to be extended for specific workflows, comes bare bones by design.
+A lightweight command-line interface starting point for querying Autodesk Platform Services (APS) APIs. Designed to be extended for specific workflows, it comes bare-bones by design.
 
 ## [BUILD OPTION 1] Open in a Dev Container
 
@@ -73,7 +73,7 @@ Creates a service account identity tied to your APS application. No browser logi
 node ./dist/index.js configure --client-id <YOUR-CLIENT-ID> --client-secret <YOUR-CLIENT-SECRET> --ssa
 ```
 
-After running this command **COPY** the `SSA Email Address` the CLI creates and store it for later.
+After running this command, **COPY** the `SSA Email Address` the CLI creates and save it for later.
 
 ### 3. Grant APS Access to Forma
 
@@ -101,7 +101,7 @@ Edit the path in `skills/aps-cli/SKILL.md` to the full path on your local machin
 
 ### CLIs over MCPs for Agentic Workflows
 
-MCP servers and CLIs are both wrappers around REST APIs — but CLIs are a more natural fit for AI agents. LLMs are extensively post-trained on shell usage and unix toolchains, giving them strong intuition for chaining commands, parsing output, and composing scripts to accomplish complex tasks. When an agent understands the goal, it self-implements strategies using the tools it already knows best.
+MCP servers and CLIs are both wrappers around REST APIs — but CLIs are a more natural fit for AI agents. LLMs are extensively post-trained on shell usage and Unix toolchains, giving them strong intuition for chaining commands, parsing output, and composing scripts to accomplish complex tasks. When an agent understands the goal, it self-implements strategies using the tools it already knows best.
 
 ```
 REST API
@@ -119,7 +119,7 @@ CLIs also enable self-testing when augmented by an agent. Since the agent can us
 
 ### Non-Compiled CLI Works Even Better
 
-By not compiling the CLI, the agent using node on the host machine has the ability to read the source code of the CLI to provide more context. This is an interesting emergent quality of having agents use tools. We try to provide all of the human-readable context via the `--help`, but once the agent sees the CLI is just source code, it will then read the source code to provide more context; perhaps some nuance that the help text was missing.
+By not compiling the CLI, the agent using Node on the host machine has the ability to read the source code of the CLI to provide more context. This is an interesting emergent quality of having agents use tools. We try to provide all of the human-readable context via the `--help`, but once the agent sees the CLI is just source code, it will then read the source code to provide more context; perhaps some nuance that the help text was missing.
 
 A more controversial benefit is self-healing. This is where the agent, after reading the source code and using the CLI, determined there might be a bug in the code or that it needed to add a feature. One story from the field: I gave this CLI to a customer and the agent quickly figured out that the reason the CLI wasn't working on their network was because of a firewall rule on their laptop. It did some research about that particular firewall software, found that if you added a specific header to the traffic it would be accepted, and patched the CLI.
 
@@ -205,6 +205,38 @@ Base CLI (this repo)
 ```
 
 The result is a CLI that is both immediately useful and fluid enough to grow with the task.
+
+### Local Documentation Chain
+
+To prevent context overload, we present documentation in small pieces with a choose-your-own-adventure approach. Most context can be explained in the `--help` but for some commands you need dedicated documentation commands.
+
+Local, because some enterprise implementations of agents do not allow searching the web. Most of us are accustomed to having Claude or Cursor read the web, but note that in enterprise companies these features could be blocked.
+
+The AEC Data Model docs illustrate this well. Over 100 markdown files covering tutorials, GraphQL query references, object types, and input types live under `docs/aecdatamodel/`. Rather than injecting all of that into context at once, the agent starts with a lightweight index:
+
+```
+node ./dist/index.js query-docs
+```
+
+```
+Getting Started
+───────────────
+  Get Hubs
+    /workspaces/aps-cli-opensource/docs/aecdatamodel/how-to-docs/tutorial01-gethubs.md
+  Get Projects
+    /workspaces/aps-cli-opensource/docs/aecdatamodel/how-to-docs/tutorial01-getprojects.md
+  Navigate to ElementGroups within a Project
+    /workspaces/aps-cli-opensource/docs/aecdatamodel/how-to-docs/tutorial01-nav-elements.md
+  Get Elements from a Category
+    /workspaces/aps-cli-opensource/docs/aecdatamodel/how-to-docs/tutorial01-elementsbycategory.md
+
+Working with Advanced Queries
+─────────────────────────────
+  ...
+
+```
+
+The output is a map — category names, doc titles, and absolute file paths — with no content loaded yet. The agent scans it, identifies the one or two files relevant to the task, and reads only those. A query about filtering elements by category touches two files; a question about pagination touches one. The other 100+ files never enter the context window.
 
 ## Pull Requests
 
