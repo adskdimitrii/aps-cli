@@ -154,14 +154,14 @@ SSA (Secure Service Accounts) takes this isolation a step further. Rather than d
     │
     └── SSA Identity (service account email)
           │
-          ├── Provisioned to Hub
+          ├── Provisioned to Forma Hub
           │     │
           │     └── Granted project-level access (e.g. viewer only)
           │           │
           │           └── Agent operates within this scope
           │                 (cannot exceed granted permissions)
           │
-          └── Revocable independently of any human user
+          └── Revocable independently of any human user at hub or project-level
 ```
 
 ### A Minimal, Focused Interface
