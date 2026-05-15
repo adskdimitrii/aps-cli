@@ -101,7 +101,7 @@ MCP servers and CLIs are both wrappers around REST APIs — but CLIs are a more 
 REST API
    │
    ├── MCP Server ──► Agent calls tool directly
-   │                  (custom protocol, fragile context)
+   │                  (custom protocol, 2nd always on process)
    │
    └── CLI ──────────► Agent runs shell commands
                        (unix patterns, scriptable, chainable)
