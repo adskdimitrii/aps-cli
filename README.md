@@ -218,6 +218,8 @@ When a task spans multiple steps, branches on results, or needs to be repeated, 
 
 ### Two Agent Deployment Models
 
+A common workflow I see is a local agent is used to develop a APS + Agent workflow, but the ultimate goal is to handoff to a clouded OpenClaw-style agent. This is why the design to support both is important.
+
 **Local agents** (Claude Code, Cursor, VS Code Copilot) run directly on the developer's machine inside the same environment where the CLI lives. The developer clones the repo, builds it once, and the agent has immediate access to both the compiled binary and the TypeScript source. Because the source is co-located, the agent can read it, extend it, and self-test against live APIs without any extra steps.
 
 **OpenClaw-style agents** run remotely — in a cloud sandbox or managed runtime — some enterprise implementations have no persistent filesystem between sessions. They need to install their tools at the start of each session. For these agents, the fact that this CLI is open source is essential: the agent can clone, install, and run the latest version of the CLI as part of its startup sequence, using the provided `skills/install-aps-cli/SKILL.md` skill. This skill teaches the agent exactly how to get the CLI running on a fresh machine before it starts doing real work.
