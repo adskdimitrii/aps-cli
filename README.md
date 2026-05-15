@@ -428,6 +428,10 @@ The output is a map — category names, doc titles, and absolute file paths — 
 
 Sure. As long as it's within the Design Philosophy.
 
+Things we could improve:
+- Login & Configure AX (agent experience)
+- ...
+
 ## MIT License
 
 See [LICENSE](LICENSE) for details.
