@@ -89,7 +89,22 @@ node ./dist/index.js --help
 
 Edit the path in `skills/aps-cli/SKILL.md` to the full path on your local machine where the `./dist/index.js` is located. Tell the agent to learn this skill as `aps-cli`.
 
----
+## How to Work with an Agent and this CLI
+
+1. Build the CLI (Follow steps above)
+2. Login (recommend SSA)
+3. Define a task you would like the agent to do. Keep it small and simple at first. For example `Get the most recent 10 issues from project x`. Keep in mind: An agent can't do anything the APS CLI can't do. Make sure your ask is possible by reviewing the [APS Doc](https://aps.autodesk.com/developer/documentation). To fast track you can simply ask `how would you do x using the APIs CLI, here are the docs: docs/README.md`. Keep in mind the local docs are not complete but include all the scripts on how to crawl more docs. You can also provide URLs to our live docs.
+4. Once you have a task in mind, ask the agent in the following way:
+
+```
+Using the aps-cli do the following task:
+
+<DESCRIBE-TASK>
+
+<Provide Links to Real Resources in Forma>
+
+It is possible, not all of the CLI commands you need to do this task are implemented. You have the ability to add and augment this CLI source code. We have provided you with extensive documentation of the APS APIs here: `docs/README.md` locally. Use the guidance in `AGENTS.md` to do your work.
+```
 
 ## Design Philosophy
 
@@ -102,7 +117,7 @@ MCP servers and CLIs are both wrappers around REST APIs — but CLIs are a more 
   ────────────                          ────────────
 
   ┌───────────────────────────┐         ┌───────────────────────────┐
-  │        MCP directory      │         │          skill file        │
+  │        MCP directory      │         │          skill file       │
   │   (built-in tool config)  │         │     (aps-cli/SKILL.md)    │
   └─────────────┬─────────────┘         └─────────────┬─────────────┘
                 │  auto-registered                    │  agent reads
@@ -323,9 +338,9 @@ Refer to the APS Documentation here:
 <PATH-TO-RELEVANT-DOCS>
 ```
 
-### Agent Self-Testing Enables Better & Faster CLI Extention
+### Agent Self-Testing Enables Better & Faster CLI Extension
 
-When an agent extends this CLI there is no barrier to real, end-to-end testing — not just unit tests. The development loop:
+When an agent extends this CLI, there is no barrier to real, end-to-end testing — not just unit tests. The development loop:
 
 1. The agent writes or edits TypeScript source.
 2. It checks for lint and type errors immediately (`eslint` + `tsc --noEmit`).
@@ -339,38 +354,40 @@ No build step is required. Node 22+ runs TypeScript natively, so the agent goes 
   │              Agent Development Loop                     │
   └─────────────────────────────────────────────────────────┘
 
-        ┌──────────────┐
-        │  Write / Edit│
-        │  TypeScript  │
+    ┌───────────────────────────────────────────────────────┐
+    │                                                       │
+    ▼                                                       │
+        ┌──────────────┐                                    │
+        │  Write / Edit│                                    │
+        │  TypeScript  │                                    │
+        └──────┬───────┘                                    │
+               │                                            │
+               ▼                                            │
+        ┌──────────────┐        errors                      │
+        │  tsc --noEmit│ ───────────────────────────────────┤
+        │  eslint      │                                    │
+        └──────┬───────┘                                    │
+               │ clean                                      │
+               ▼                                            │
+        ┌──────────────┐        fails                       │
+        │  node        │ ───────────────────────────────────┤
+        │  src/index.ts│  (runtime / API error)             │
+        │  <command>   │                                    │
+        └──────┬───────┘                                    │
+               │ passes                                     │
+               ▼                                            │
+        ┌──────────────┐        bugs found                  │
+        │  Verify live │ ───────────────────────────────────┘
+        │  output      │  (logic / behavior error)
         └──────┬───────┘
-               │
+               │ correct
                ▼
-        ┌──────────────┐        errors
-        │  tsc --noEmit│ ───────────────────────┐
-        │  eslint      │                        │
-        └──────┬───────┘                        │
-               │ clean                          │
-               ▼                                │
-        ┌──────────────┐        fails           │
-        │  node        │ ───────────────────────┤
-        │  src/index.ts│  (runtime / API error) │
-        │  <command>   │                        │
-        └──────┬───────┘                        │
-               │ passes                         │
-               ▼                                │
-        ┌──────────────┐                        │
-        │  Verify live │                        │
-        │  output      │                        │
-        └──────┬───────┘                        │
-               │                                │
-               ▼                                │
-            done   ◄────────────────────────────┘
-                          (fix and retry)
+            done
 ```
 
 ### Local Documentation Chain
 
-To prevent context overload, we present documentation in small pieces with a choose-your-own-adventure approach. Most context can be explained in the `--help` but for some commands you need dedicated documentation commands.
+To prevent context overload, we present documentation in small pieces with a choose-your-own-adventure approach. Most context can be explained in the `--help`, but for some commands you need dedicated documentation commands.
 
 Local, because some enterprise implementations of agents do not allow searching the web. Most of us are accustomed to having Claude or Cursor read the web, but note that in enterprise companies these features could be blocked.
 
