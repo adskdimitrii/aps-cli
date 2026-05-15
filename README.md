@@ -1,12 +1,12 @@
 # aps-cli
 
-A lightweight command-line interface starting point for querying Autodesk Platform Services (APS) APIs. Designed to be extended for specific workflows, it comes bare-bones by design.
+A lightweight command-line interface (CLI) starting point for building agent workflows using Autodesk Platform Services (APS) APIs. Designed to be extended (by agents) for specific workflows, it comes bare-bones by design.
 
 ## How to Work with an Agent and this CLI
 
-1. Build the CLI (follow steps below)
+1. Build the CLI (follow steps below).
 2. Log in (recommend using [SSA](https://aps.autodesk.com/en/docs/ssa/v1/developers_guide/overview/))
-3. Define a task you would like the agent to do. Keep it small and simple at first. For example `Get the most recent 10 issues from project x`. Keep in mind: An agent can't do anything the APS CLI can't do. Make sure your ask is possible by reviewing the [APS Doc](https://aps.autodesk.com/developer/documentation). To fast-track you can simply ask `how would you do x using the APS CLI, here are the docs: docs/README.md`. Keep in mind the local docs are not complete but include all the scripts on how to crawl more docs. You can also provide URLs to our live docs.
+3. Define a task you would like the agent to do. Keep it small and simple at first. For example `Get the most recent 10 issues from project X`. Keep in mind: An agent can't do anything the APS CLI can't do. Make sure your ask is possible by reviewing the [APS Doc](https://aps.autodesk.com/developer/documentation). To fast-track you can simply ask `how would you do X using the APS CLI, here are the docs: docs/README.md`. Keep in mind the local docs are not complete but include all the scripts on how to crawl more docs. You can also provide URLs to our live docs.
 4. Grant the CLI needed access to the resources in your task.
 5. Ask the agent using this template:
 
@@ -429,7 +429,7 @@ The output is a map — category names, doc titles, and absolute file paths — 
 Sure. As long as it's within the Design Philosophy.
 
 Things we could improve:
-- Login & Configure AX (agent experience)
+- Configure & Login UX / AX (agent experience)
 - ...
 
 ## MIT License
