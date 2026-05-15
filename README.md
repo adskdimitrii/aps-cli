@@ -170,7 +170,50 @@ When a task spans multiple steps, branches on results, or needs to be repeated, 
          report.csv  +  summary.md
 ```
 
-CLIs also enable self-testing when augmented by an agent. Since the agent can use the CLI as soon as it has written type-safe TypeScript code, it can self-test features.
+### Agent Self-Testing
+
+When an agent extends this CLI there is no barrier to real, end-to-end testing — not just unit tests. The development loop:
+
+1. The agent writes or edits TypeScript source.
+2. It checks for lint and type errors immediately (`eslint` + `tsc --noEmit`).
+3. Once those pass, it runs the CLI directly with `node src/index.ts <command>`.
+4. It inspects the live output, iterates, and verifies the feature works against real APS APIs.
+
+No build step is required. Node 22+ runs TypeScript natively, so the agent goes from source edit to live test in seconds. This keeps the feedback loop fast and keeps the agent honest — it cannot ship code it hasn't actually run.
+
+```
+  ┌─────────────────────────────────────────────────────────┐
+  │              Agent Development Loop                     │
+  └─────────────────────────────────────────────────────────┘
+
+        ┌──────────────┐
+        │  Write / Edit│
+        │  TypeScript  │
+        └──────┬───────┘
+               │
+               ▼
+        ┌──────────────┐        errors
+        │  tsc --noEmit│ ───────────────────────┐
+        │  eslint      │                        │
+        └──────┬───────┘                        │
+               │ clean                          │
+               ▼                                │
+        ┌──────────────┐        fails           │
+        │  node        │ ───────────────────────┤
+        │  src/index.ts│  (runtime / API error) │
+        │  <command>   │                        │
+        └──────┬───────┘                        │
+               │ passes                         │
+               ▼                                │
+        ┌──────────────┐                        │
+        │  Verify live │                        │
+        │  output      │                        │
+        └──────┬───────┘                        │
+               │                                │
+               ▼                                │
+            done   ◄────────────────────────────┘
+                          (fix and retry)
+```
 
 ### Non-Compiled CLI Works Even Better
 
