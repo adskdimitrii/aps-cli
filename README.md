@@ -218,11 +218,9 @@ When a task spans multiple steps, branches on results, or needs to be repeated, 
 
 ### Two Agent Deployment Models
 
-This CLI is designed for two distinct agent deployment patterns, each with a different setup workflow.
-
 **Local agents** (Claude Code, Cursor, VS Code Copilot) run directly on the developer's machine inside the same environment where the CLI lives. The developer clones the repo, builds it once, and the agent has immediate access to both the compiled binary and the TypeScript source. Because the source is co-located, the agent can read it, extend it, and self-test against live APIs without any extra steps.
 
-**OpenClaw-style agents** run remotely — in a cloud sandbox or managed runtime — and have no persistent filesystem between sessions. They need to install their tools at the start of each session. For these agents, the fact that this CLI is open source is essential: the agent can clone, install, and run the latest version of the CLI as part of its startup sequence, using the provided `skills/install-aps-cli/SKILL.md` skill. This skill teaches the agent exactly how to get the CLI running on a fresh machine before it starts doing real work.
+**OpenClaw-style agents** run remotely — in a cloud sandbox or managed runtime — some enterprise implementations have no persistent filesystem between sessions. They need to install their tools at the start of each session. For these agents, the fact that this CLI is open source is essential: the agent can clone, install, and run the latest version of the CLI as part of its startup sequence, using the provided `skills/install-aps-cli/SKILL.md` skill. This skill teaches the agent exactly how to get the CLI running on a fresh machine before it starts doing real work.
 
 ```
   ┌─────────────────────────────────────────────────────────────────────────────────────────┐
