@@ -331,21 +331,7 @@ The result is a CLI that is both immediately useful and fluid enough to grow wit
 
 Fewer commands mean a cleaner context window. From experience, agent performance on complex tasks improves as the interface simplifies — extraneous commands dilute the signal of what's actually useful. This CLI ships only what's needed to navigate APS data; nothing more.
 
-If you need to add new commands, I would recommend the following:
 
-1. Clone https://github.com/adskdimitrii/aps-ai-friendly-docs
-2. Find the API(s) you are looking for in the offline docs.
-3. Prompt a coding agent with the following:
-
-```
-Add a new command to the aps-cli to help accomplish a new workflow:
-
-<DESCRIBE-WORKFLOW>
-
-Refer to the APS Documentation here:
-
-<PATH-TO-RELEVANT-DOCS>
-```
 
 ### Agent Self-Testing Enables Better & Faster CLI Extension
 
