@@ -6,9 +6,9 @@ A lightweight command-line interface (CLI) starting point for building agent wor
 
 1. Build the CLI (follow steps below).
 2. Log in (recommend using [SSA](https://aps.autodesk.com/en/docs/ssa/v1/developers_guide/overview/))
-3. Define a task you would like the agent to do. Keep it small and simple at first. For example `Get the most recent 10 issues from project X`. Keep in mind: An agent can't do anything the APS CLI can't do. Make sure your ask is possible by reviewing the [APS Doc](https://aps.autodesk.com/developer/documentation). To fast-track you can simply ask `how would you do X using the APS CLI, here are the docs: docs/README.md`. Keep in mind the local docs are not complete but include all the scripts on how to crawl more docs. You can also provide URLs to our live docs.
+3. Define a task you would like the agent to do. Keep it small and simple at first. For example `Get the most recent 10 issues from project X`. Keep in mind: An agent can only do what the APS APIs support. Make sure your ask is possible by reviewing the [APS Doc](https://aps.autodesk.com/developer/documentation). To fast-track discovery you can simply ask `How would you do X using the APS CLI, here are the docs: docs/README.md`. Note: the local docs are not complete but include all the scripts on how to crawl new docs. You can also provide URLs to our live docs.
 4. Grant the CLI needed access to the resources in your task.
-5. Ask the agent using this template:
+5. Prompt the agent using this template:
 
 ```
 Using the aps-cli, complete the following task:
@@ -25,6 +25,8 @@ Expected output:
 
 Not all CLI commands needed for this task may be implemented yet. You have the ability to add and augment the CLI source code using the APS API documentation at `docs/README.md`. Follow the guidance in `AGENTS.md` when changing the source code.
 ```
+
+From here on, it's up to you to use your knowledge of how to work with coding agents. This repo is designed to fast-track you by providing a framework for the agent to work with, easy access to documentation, and guidance on how to test and self-improve. I wish you luck. If you end up creating a workflow that has value, consider starring this repo.
 
 ## [BUILD OPTION 1] Open in a Dev Container
 
