@@ -5,8 +5,8 @@ A lightweight command-line interface (CLI) starting point for building agent wor
 ## How to Work with an Agent and this CLI
 
 1. Build the CLI (follow steps below).
-2. Log in (recommend using [SSA](https://aps.autodesk.com/en/docs/ssa/v1/developers_guide/overview/))
-3. Define a task you would like the agent to do. Keep it small and simple at first. For example `Get the most recent 10 issues from project X`. Keep in mind: An agent can only do what the APS APIs support. Make sure your ask is possible by reviewing the [APS Doc](https://aps.autodesk.com/developer/documentation). To fast-track discovery you can simply ask `How would you do X using the APS CLI, here are the docs: docs/README.md`. Note: the local docs are not complete but include all the scripts on how to crawl new docs. You can also provide URLs to our live docs.
+2. Log in (we recommend using [SSA](https://aps.autodesk.com/en/docs/ssa/v1/developers_guide/overview/))
+3. Define a task you would like the agent to do. Keep it small and simple at first. For example `Get the most recent 10 issues from project X`. Keep in mind: An agent can only do what the APS APIs support. Make sure your ask is possible by reviewing the [APS Doc](https://aps.autodesk.com/developer/documentation). To fast-track discovery you can simply ask `How would you do X using the APS CLI, here are the docs: docs/README.md`. Note: the local docs are not complete but include all the scripts on how to crawl new docs. You can also provide URLs to the live APS docs.
 4. Grant the CLI needed access to the resources in your task.
 5. Prompt the agent using this template:
 
@@ -72,12 +72,12 @@ node ./dist/index.js configure --client-id <YOUR-CLIENT-ID> --client-secret <YOU
 node ./dist/index.js login
 ```
 
-#### Option B — Import an existing token (3-legged OAuth - for OpenClaw style Agents using YOUR identity OR an Active Directory Service Account):
+#### Option B — Import an existing token (3-legged OAuth - for OpenClaw-style agents using YOUR identity OR an Active Directory Service Account):
 
 [Register a Traditional Web App](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app/) at the [APS Developer Portal](https://aps.autodesk.com/myapps) with:
 - **Callback URL**: `https://aps-oauth.azurewebsites.net`
 
-Use [https://aps-oauth.azurewebsites.net](https://aps-oauth.azurewebsites.net/) to create an access token. This workflow will enable using the CLI with OpenClaw-style agents where the user can't use the login workflow.
+Use [https://aps-oauth.azurewebsites.net](https://aps-oauth.azurewebsites.net/) to create an access token. This workflow enables using the CLI with OpenClaw-style agents where the user cannot use the login workflow.
 
 ```bash
 node ./dist/index.js configure --client-id <YOUR-CLIENT-ID> --client-secret <YOUR-CLIENT-SECRET> --token ~/Downloads/token.json
@@ -87,7 +87,7 @@ node ./dist/index.js configure --client-id <YOUR-CLIENT-ID> --client-secret <YOU
 
 [Register a Server-to-Server App](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app/) at the [APS Developer Portal](https://aps.autodesk.com/myapps)
 
-Creates a service account identity tied to your APS application. No browser login required — the CLI generates and signs JWT assertions automatically. Ideal for headless/automated environments.
+This creates a service account identity tied to your APS application. No browser login required — the CLI generates and signs JWT assertions automatically. Ideal for headless/automated environments.
 
 ```bash
 node ./dist/index.js configure --client-id <YOUR-CLIENT-ID> --client-secret <YOUR-CLIENT-SECRET> --ssa
@@ -101,9 +101,9 @@ After running this command, **COPY** the `SSA Email Address` the CLI creates and
 
 [Add your APS Client ID to your Forma Account](https://aps.autodesk.com/en/docs/acc/v1/tutorials/getting-started/manage-access-to-acc/)
 
-### Grant SSA Access **[OPTIONAL]**
+#### Grant SSA Access **[OPTIONAL]**
 
-If using **SSA** auth option you must now grant the `SSA Email Address` access to Forma resources just like you would for a user. It's recommended to limit access to the lowest required level.
+If using the **SSA** auth option, you must now grant the `SSA Email Address` access to Forma resources just like you would for a user. It's recommended to limit access to the lowest required level.
 
 ### Using the APS CLI Manually
 
@@ -262,9 +262,9 @@ The open-source nature of the CLI is what makes the OpenClaw workflow viable. A 
 
 ### Non-Compiled CLI Works Even Better
 
-By not compiling the CLI, the agent using Node on the host machine has the ability to read the source code of the CLI to provide more context. This is an interesting emergent quality of having agents use tools. We try to provide all of the human-readable context via the `--help`, but once the agent sees the CLI is just source code, it will then read the source code to provide more context; perhaps some nuance that the help text was missing.
+By not compiling the CLI, the agent using Node on the host machine can read the CLI source code for additional context. This is an interesting emergent quality of having agents use tools. We try to provide all of the human-readable context via the `--help`, but once the agent sees the CLI is just source code, it will read the source code for further context — nuance that the `--help` text may have omitted.
 
-A more controversial benefit is self-healing. This is where the agent, after reading the source code and using the CLI, determined there might be a bug in the code or that it needed to add a feature. One story from the field: I gave this CLI to a customer and the agent quickly figured out that the reason the CLI wasn't working on their network was because of a firewall rule on their laptop. It did some research about that particular firewall software, found that if you added a specific header to the traffic it would be accepted, and patched the CLI.
+A more controversial benefit is self-healing. This is where the agent, after reading the source code and using the CLI, determines there might be a bug in the code or that it needed to add a feature. One story from the field: I gave this CLI to a customer and the agent quickly figured out that the reason the CLI wasn't working on their network was a firewall rule on their laptop. It did some research about that particular firewall software, found that adding a specific header to the traffic would allow it through, and patched the CLI.
 
 ### Credential Isolation
 
@@ -290,7 +290,7 @@ Once a user authenticates, the agent should never need to see the OAuth token. T
 
 The boundary between "human authenticates" and "agent operates" is a key security property of this design.
 
-SSA (Secure Service Accounts) takes this isolation a step further. Rather than delegating a human user's identity to the agent, SSA creates a dedicated service identity — scoped to your APS application — that can be granted access to Forma resources independently. The agent authenticates as this service account using JWT assertions signed by a private key managed by the CLI; no user credentials or browser session are ever involved. Because the SSA identity exists separately from any human account, its access can be provisioned at the minimum required permission level and revoked without affecting any user. This makes SSA the recommended option for production agentic workflows where strong credential isolation and auditability are required.
+SSA (Secure Service Account) takes this isolation a step further. Rather than delegating a human user's identity to the agent, SSA creates a dedicated service identity — scoped to your APS application — that can be granted access to Forma resources independently. The agent authenticates as this service account using JWT assertions signed by a private key managed by the CLI; no user credentials or browser session are ever involved. Because the SSA identity exists separately from any human account, its access can be provisioned at the minimum required permission level and revoked without affecting any user. This makes SSA the recommended option for production agentic workflows where strong credential isolation and auditability are required.
 
 ```
   APS Application
@@ -398,7 +398,7 @@ No build step is required. Node 22+ runs TypeScript natively, so the agent goes 
 
 To prevent context overload, we present documentation in small pieces with a choose-your-own-adventure approach. Most context can be explained in the `--help`, but for some commands you need dedicated documentation commands.
 
-Local, because some enterprise implementations of agents do not allow searching the web. Most of us are accustomed to having Claude or Cursor read the web, but note that in enterprise companies these features could be blocked.
+The docs are kept local because some enterprise implementations of agents do not allow searching the web. Most of us are accustomed to having Claude or Cursor read the web, but note that in enterprise environments these features could be blocked.
 
 The AEC Data Model docs illustrate this well. Over 100 markdown files covering tutorials, GraphQL query references, object types, and input types live under `docs/aecdatamodel/`. Rather than injecting all of that into context at once, the agent starts with a lightweight index:
 
