@@ -108,8 +108,10 @@ If using the **SSA** auth option, you must now grant the `SSA Email Address` acc
 ### Using the APS CLI Manually
 
 ```bash
-node ./dist/index.js --help
+node src/index.js --help
 ```
+
+If you're using a version of NodeJS that can't run TypeScrip natively use the built `dist/index.js`
 
 ### Teaching your Agent to Use the CLI
 
