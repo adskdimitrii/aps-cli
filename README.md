@@ -23,7 +23,7 @@ Resources:
 Expected output:
 <Describe format — e.g. JSON to stdout, markdown table, summary paragraph>
 
-Not all CLI commands needed for this task may be implemented yet. You have the ability to add and augment the CLI source code using the APS API documentation at `docs/README.md`. Follow the guidance in `AGENTS.md` when changing the source code.
+Not all CLI commands needed for this task may be implemented yet. You have the ability to add and augment the CLI source code. Refer to the APS API documentation `docs/README.md`. Follow the guidance in `AGENTS.md` when changing the source code.
 ```
 
 From here on, it's up to you to use your knowledge of how to work with coding agents. This repo is designed to fast-track you by providing a framework for the agent to work with, easy access to documentation, and guidance on how to test and self-improve. I wish you luck. If you end up creating a workflow that has value, consider starring this repo.
@@ -330,8 +330,6 @@ Base CLI (this repo)
 The result is a CLI that is both immediately useful and fluid enough to grow with the task.
 
 Fewer commands mean a cleaner context window. From experience, agent performance on complex tasks improves as the interface simplifies — extraneous commands dilute the signal of what's actually useful. This CLI ships only what's needed to navigate APS data; nothing more.
-
-
 
 ### Agent Self-Testing Enables Better & Faster CLI Extension
 
