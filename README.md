@@ -71,18 +71,7 @@ node src/index.ts configure --client-id <YOUR-CLIENT-ID> --client-secret <YOUR-C
 node src/index.ts login
 ```
 
-#### Option B — Import an existing token (3-legged OAuth - for OpenClaw-style agents using YOUR identity OR an Active Directory Service Account):
-
-[Register a Traditional Web App](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app/) at the [APS Developer Portal](https://aps.autodesk.com/myapps) with:
-- **Callback URL**: `https://aps-oauth.azurewebsites.net`
-
-Use [https://aps-oauth.azurewebsites.net](https://aps-oauth.azurewebsites.net/) to create an access token. This workflow enables using the CLI with OpenClaw-style agents where the user cannot use the login workflow.
-
-```bash
-node src/index.ts configure --client-id <YOUR-CLIENT-ID> --client-secret <YOUR-CLIENT-SECRET> --token ~/Downloads/token.json
-```
-
-#### Option C — Secure Service Account (SSA - For OpenClaw-style agents using Autodesk Secure Service Account):
+#### Option B — Secure Service Account (SSA - For OpenClaw-style agents using Autodesk Secure Service Account):
 
 [Register a Server-to-Server App](https://aps.autodesk.com/en/docs/oauth/v2/tutorials/create-app/) at the [APS Developer Portal](https://aps.autodesk.com/myapps)
 
